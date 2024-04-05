@@ -1,9 +1,8 @@
 import os
-
 import telebot
-from datetime import datetime, timedelta
-from database import Client, initialize_db
+from database import initialize_db
 from dotenv import load_dotenv
+from registration import handle_book, handle_message
 
 
 # Инициализация базы данных
@@ -20,30 +19,17 @@ bot = telebot.TeleBot(TOKEN)
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])
 def handle_start(message):
-    bot.send_message(message.chat.id, "Привет! Я бот для записи на услуги. Чтобы записаться, используй команду /book.")
+    bot.send_message(message.chat.id, "Привет! Я виртуальный помощник.\n"
+                                      "Вы можете оставить заявку на прием к специалистам, УЗИ, анализы, массаж, "
+                                      "соляная пещера. А также , вы можете отменить запись.\n"
+                                      "Чтобы записаться, используйте команду /Registration\n"
+                                      "Чтобы узнать подробнее об услугах, используйте команду /about\n"
+                                      "Чтобы отменить запись, используйте команду /cancel")
 
 
-# Обработчик команды /book
-@bot.message_handler(commands=['book'])
-def handle_book(message):
-    bot.send_message(message.chat.id, "Выбери услугу, на которую хочешь записаться:")
-    # Здесь можно добавить клавиатуру с кнопками для выбора услуг
-
-
-# Обработчик текстовых сообщений
-@bot.message_handler(func=lambda message: True)
-def handle_message(message):
-    if message.text == "Терапевт":
-        book_service(message, "Терапевт")
-    elif message.text == "УЗИ":
-        book_service(message, "УЗИ")
-    # Добавьте обработку других услуг
-
-
-# Функция для записи на услугу
-def book_service(message, service):
-    client = Client.create(chat_id=str(message.chat.id), service=service, date_time=datetime.now())
-    bot.send_message(message.chat.id, f"Ты успешно записан на {service}.")
+# Подключение обработчиков из registration.py
+bot.message_handler(commands=['Registration'])(lambda message: handle_book(bot, message))
+bot.message_handler(func=lambda message: True)(lambda message: handle_message(bot, message))
 
 
 # Запуск бота
