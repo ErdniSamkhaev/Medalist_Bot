@@ -48,3 +48,4 @@ def book_service(message, service):
 
 # Запуск бота
 bot.polling(none_stop=True)
+
