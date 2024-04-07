@@ -2,7 +2,7 @@ import os
 import telebot
 from database import initialize_db
 from dotenv import load_dotenv
-from datatime import handle_message
+from date_time_handler import handle_message
 from keyboards import get_keyboard
 
 
@@ -35,5 +35,3 @@ bot.message_handler(func=lambda message: True)(lambda message: handle_message(bo
 
 # Запуск бота
 bot.polling(none_stop=True)
-
-
