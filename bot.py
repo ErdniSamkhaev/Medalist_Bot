@@ -2,7 +2,8 @@ import os
 import telebot
 from database import initialize_db
 from dotenv import load_dotenv
-from registration import handle_book, handle_message
+from datatime import handle_message
+from keyboards import get_keyboard
 
 
 # Инициализация базы данных
@@ -28,10 +29,11 @@ def handle_start(message):
 
 
 # Подключение обработчиков из registration.py
-bot.message_handler(commands=['Registration'])(lambda message: handle_book(bot, message))
+bot.message_handler(commands=['Registration'])(lambda message: get_keyboard(bot, message))
 bot.message_handler(func=lambda message: True)(lambda message: handle_message(bot, message))
 
 
 # Запуск бота
 bot.polling(none_stop=True)
+
 
