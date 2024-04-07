@@ -32,3 +32,5 @@ def send_schedule(bot, chat_id, service):
     # Здесь формируется график для выбранной услуги
     schedule = service_schedule.get(service, "Расписание для данной услуги не найдено.")
     bot.send_message(chat_id, schedule)
+
+
