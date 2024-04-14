@@ -35,3 +35,4 @@ bot.message_handler(func=lambda message: True)(lambda message: handle_message(bo
 
 # Запуск бота
 bot.polling(none_stop=True)
+
